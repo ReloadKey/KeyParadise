@@ -6,10 +6,9 @@
 	var/list/species_restricted = null //Only these species can wear this kit.
 	var/scan_reagents = 0 //Can the wearer see reagents while it's equipped?
 	var/gunshot_residue //Used by forensics.
-	var/is_improoved_by_potion = FALSE //used for xenobio potions
+	var/obj/item/slimepotion/clothing/applied_slime_potion = null
 	var/list/faction_restricted = null
 	var/teleportation = FALSE //used for xenobio potions
-	var/slime_potions
 
 	/*
 		Sprites used when the clothing item is refit. This is done by setting icon_override.
@@ -470,8 +469,7 @@ BLIND     // can't see anything
 			if(H.l_hand && H.r_hand) //If both hands are occupied, drop the object on the ground.
 				user.unEquip(src)
 			else //Otherwise, put it in an available hand, the active one preferentially.
-				src.loc = user
-				H.head = null
+				user.unEquip(src)
 				user.put_in_hands(src)
 	else
 		icon_state += "_up"
@@ -496,8 +494,7 @@ BLIND     // can't see anything
 			if(H.l_hand && H.r_hand) //If both hands are occupied, drop the object on the ground.
 				user.unEquip(src)
 			else //Otherwise, put it in an available hand, the active one preferentially.
-				src.loc = user
-				user.wear_mask = null
+				user.unEquip(src)
 				user.put_in_hands(src)
 	H.wear_mask_update(src, toggle_off = mask_adjusted)
 	usr.update_inv_wear_mask()
